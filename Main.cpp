@@ -1,4 +1,11 @@
 
+#include <cmath>
+#include <thread>
+#include <cstdint>
+#include <cstddef>
+
+#include <iostream>
+
 #if defined(_WIN32) || defined(_WIN64)
 #define WIN_32_LEAN_AND_MEAN
 #define NOMMINMAX
@@ -6,8 +13,10 @@
 #include<Windows.h>
 #endif
 
-#include <cmath>
-#include <cstdint>
+#if defined(__linux)
+#define PL (1)
+#include <X11/Xlib.h>
+#endif
 
 #define A auto
 #define U uint32_t
@@ -20,7 +29,7 @@ struct W
 {
     U w;
     U h;
-    bool o;
+    bool o { true };
 
     #if PW
     HDC dc;
@@ -33,14 +42,14 @@ struct W
         U px = 0;
         U py = 0;
 
-        auto i = GetModuleHandle(nullptr);
+        A i = GetModuleHandle(0);
         WNDCLASSEX c { };
         c.cbSize = sizeof(c);
         c.hInstance = i;
         c.style = CS_HREDRAW | CS_VREDRAW;
         c.lpszClassName = "Window Class Name";
         c.lpfnWndProc = wp;
-        c.hCursor = LoadCursor(nullptr, IDC_ARROW);
+        c.hCursor = LoadCursor(0, IDC_ARROW);
         c.hIconSm = LoadIcon(i, IDI_APPLICATION);
         c.hIcon = LoadIcon(i, IDI_APPLICATION);
         c.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
@@ -71,7 +80,6 @@ struct W
         b = ShowWindow(hw, SW_SHOW);
         b = SetForegroundWindow(hw);
         SetFocus(hw);
-        o = true;
     }
 
     void u()
@@ -93,6 +101,58 @@ struct W
         ReleaseDC(hw, dc);
         DeleteDC(dc);
         DestroyWindow(hw);
+        o = false;
+    }
+    #elif PL
+    int s;
+    GC gc;
+    XEvent e;
+    Window hw;
+    Display* d;
+    
+    W(U w, U h)
+        : w { w }
+        , h { h }
+    {
+        d = XOpenDisplay(0);
+        s = XDefaultScreen(d);
+        hw = XCreateSimpleWindow(
+            d,
+            XRootWindow(d, s),
+            0,
+            0,
+            w,
+            h,
+            0,
+            XBlackPixel(d, s),
+            XWhitePixel(d, s)
+        );
+        
+        // XSetStandardProperties(d, hw, "My Window", "Hi!", None, 0, 0, 0);
+        XSelectInput(d, hw, ExposureMask | ButtonPressMask | KeyPressMask);
+        gc = XCreateGC(d, hw, 0, 0);
+        XMapWindow(d, hw);
+        XFlush(d);
+    }
+
+    void u()
+    {
+        XNextEvent(d, &e);
+        switch (e.type) {
+            case ButtonPress: c(); break;
+        }
+    }
+
+    void r()
+    {
+
+    }
+
+    void c()
+    {
+        XFreeGC(d, gc);
+        XDestroyWindow(d, hw);
+        XCloseDisplay(d);
         o = false;
     }
     #endif
@@ -131,10 +191,9 @@ int main()
         w.u();
         static bool rendered;
         if (!rendered) {
-            for (size_t yi = 0; yi < 480; ++yi) {
-                for (size_t xi = 0; xi < 640; ++xi) {
-                    vec2 texcoord { (float)xi / 640, (float)yi / 480 };
-
+            for (size_t yi = 0; yi < w.h; ++yi) {
+                for (size_t xi = 0; xi < w.w; ++xi) {
+                    vec2 texcoord { (float)xi / (float)w.w, (float)yi / (float)w.h };
                     {
                         float scale = 2.2f;
                         vec2 center { 0.7f, 0 };
@@ -158,12 +217,27 @@ int main()
                         }
 
                         float value = float(i) / 100.0f;
+                        
+                        #if PW
                         COLORREF color =
                             i == iterations ?
                             RGB(0, 0, 0) :
                             RGB((uint8_t)(value * 255.0f), 1, 1);
 
                         SetPixel(w.dc, xi, yi, color);
+                        #endif
+                        
+                        #if PL
+                        uint8_t r =
+                            i == iterations ?
+                            0 :
+                            (uint8_t)(value * 255.0f);
+                        uint8_t g = 0;
+                        uint8_t b = 0;
+                        unsigned long color = ((r& 0xff) << 16) + ((g & 0xff) << 8) + (b & 0xff);
+                        XSetForeground(w.d, w.gc, color);
+                        XDrawPoint(w.d, w.hw, w.gc, xi, yi);
+                        #endif
                     }
                 }
             }
@@ -205,5 +279,9 @@ Y :
 Z : size_t
 
 PW : Platform Windows
+PL : Platform Linux
+
+sudo apt-get install libx11-dev
+reset; g++ -std=c++11 -Wall Main.cpp -o MiniWindow -lX11; ./MiniWindow
 
 */
