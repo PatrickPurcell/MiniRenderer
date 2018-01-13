@@ -11,6 +11,7 @@
 
 #include "Defines.hpp"
 #include "MiniGLM_ex.hpp"
+#include "MiniImage.hpp"
 
 #if PW
 
@@ -20,6 +21,7 @@ struct FrmBf
     HDC hdc;
     HBITMAP bmp;
     COLORREF*pxls;
+    //Img<vc3> img;
 
     ~FrmBf()
     {
@@ -71,6 +73,7 @@ struct Wndw
     Wndw(I w,I h)
         :w{w}
         ,h{h}
+        //:frmbf()
     {
         A i=GetModuleHandle(0);
         WNDCLASSEX c{sizeof(c),0,wp,0,0,i,0,0,0,0,"-",0};

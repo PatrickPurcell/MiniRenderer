@@ -9,10 +9,12 @@
 
 #pragma once
 
-#include "Defines.hpp"
-#include "MiniGLM_ex.hpp"
-
+#include"Defines.hpp"
+#include"MiniGLM_ex.hpp"
 #include<fstream>
+
+// #define MINI_PGM_UNGOLFED
+#if defined MINI_PGM_UNGOLFED||defined MINI_RENDERER_UNGOLFED
 
 /**
  * Writes a gray scale image to a pgm file.
@@ -50,3 +52,15 @@ V pgm(string s,I w,I h,vc3*p)
         f<<"\n";
     }
 }
+
+#else
+
+V pgm(string s,I w,I h,F*p){ofstream f(s+".pgm");f<<"P2\n"<<w<<" "<<h<<"\n"<<
+"255"<<"\n";FOR(y,h){FOR(x,w)f<<(I)round(clmp<F>(p[y*w+x],0,1)*255)<<" ";f<<"\n"
+;}}
+
+V pgm(string s,I w,I h,vc3*p){ofstream f(s+".pgm");f<<"P3\n"<<w<<" "<<h<<"\n"<<
+"255"<<"\n";FOR(y,h){FOR(x,w)FOR(i,3)f<<(I)round(clmp<F>(p[y*w+x][i],0,1)*255)<<
+" ";f<<"\n";}}
+
+#endif

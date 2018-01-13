@@ -10,8 +10,8 @@ set(includeFiles
     ${includePath}/Defines.hpp
     ${includePath}/MiniGLM.hpp
     ${includePath}/MiniGLM_ex.hpp
+    ${includePath}/MiniImage.hpp
     ${includePath}/MiniPgm.hpp
-    ${includePath}/MiniRenderer.hpp
     ${includePath}/MiniWindow.hpp
 )
 

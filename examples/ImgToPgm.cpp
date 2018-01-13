@@ -9,8 +9,8 @@
 
 #include "Defines.hpp"
 #include "MiniGLM_ex.hpp"
+#include "MiniImage.hpp"
 #include "MiniPgm.hpp"
-#include "MiniRenderer.hpp"
 
 int main()
 {

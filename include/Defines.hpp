@@ -9,6 +9,8 @@
 
 #pragma once
 
+// #define MINI_RENDERER_UNGOLFED
+
 #if defined _WIN32||defined _WIN64
 #define WIN_32_LEAN_AND_MEAN
 #define NOMINMAX
@@ -40,12 +42,12 @@
 #define R return
 #define S
 // #define T Reserved for use in templates
-#define U uint32_t
+#define U uint32_t // TODO : Remove
 #define V void
 // #define W Reserved for global width
 #define X
 #define Y
-#define Z size_t
+#define Z size_t // TODO : Remove
 #define FOR(IT,NM)for(I IT=0;IT<NM;++IT)
 #define TMP template
 #define TYP typename
