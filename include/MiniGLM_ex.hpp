@@ -22,20 +22,30 @@ TMP<I N>using vc=array<F,N>;
 using vc2=vc<2>;
 using vc3=vc<3>;
 using vc4=vc<4>;
-#define VO(OP)                                  \
-TMP<I N>vc<N> O OP(const vc<N>&l,const vc<N>&r) \
-{                                               \
-    vc<N> rv;                                   \
-    FOR(i,N)                                    \
-        rv[i]=l[i]OP r[i];                      \
-    R rv;                                       \
-}                                               \
-TMP<I N>vc<N> O OP(const vc<N>&l,F r)           \
-{                                               \
-    vc<N> rv;                                   \
-    FOR(i,N)                                    \
-        rv[i]=l[i]OP r;                         \
-    R rv;                                       \
+#define VO(OP)                                 \
+TMP<I N>vc<N>O OP(const vc<N>&l,const vc<N>&r) \
+{                                              \
+    vc<N> rv;                                  \
+    FOR(i,N)                                   \
+        rv[i]=l[i]OP r[i];                     \
+    R rv;                                      \
+}                                              \
+TMP<I N>vc<N>&O OP=(vc<N>&l,const vc<N>&r)     \
+{                                              \
+    l=l+r;                                     \
+    R l;                                       \
+}                                              \
+TMP<I N>vc<N>O OP(const vc<N>&l,F r)           \
+{                                              \
+    vc<N> rv;                                  \
+    FOR(i,N)                                   \
+        rv[i]=l[i]OP r;                        \
+    R rv;                                      \
+}                                              \
+TMP<I N>vc<N>&O OP=(vc<N>&l,F r)               \
+{                                              \
+    l=l+r;                                     \
+    R l;                                       \
 }
 VO(+)
 VO(-)

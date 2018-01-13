@@ -34,7 +34,7 @@ int main()
 {
     I w=1024;
     I h=1024;
-    Img<float> img(w,h);
+    Img<F> img(w,h);
     mtx m=mtxIdnty();
     mtx v=lookAt(vc3{4.8f,3,4.8f},vc3{},vc3{0,1,0});
     mtx p=prspctv(RAD(60),(F)w/(F)h,3.7f,11.4f);
@@ -56,7 +56,7 @@ int main()
                 p1=img.nrmlz(p1);
                 F c=(p0[2]+p1[2])/2;
                 if(0<p0[2]&&p0[2]<1&&0<p1[2]&&p1[2]<1)
-                    xWu(img,p0,p1,1-c+0.08f);
+                    xWu(img, p0, p1, 1-c+0.08f);
             }
             if(y<gridRes-1){
                 vc4 p1=grid[i+gridRes];
@@ -65,7 +65,7 @@ int main()
                 p1=img.nrmlz(p1);
                 F c=(p0[2]+p1[2])/2;
                 if(0<p0[2]&&p0[2]<1&&0<p1[2]&&p1[2]<1)
-                    xWu(img,p0,p1,1-c+0.08f);
+                    xWu(img, p0, p1,1-c+0.08f);
             }
         }
     pgm("gd",w,h,&img[0]);
