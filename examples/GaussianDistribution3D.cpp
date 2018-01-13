@@ -11,6 +11,7 @@
 #include "MiniGLM_ex.hpp"
 #include "MiniPgm.hpp"
 #include "MiniRenderer.hpp"
+#include "MiniWindow.hpp"
 
 #include<vector>
 
@@ -42,22 +43,44 @@ int main()
 {
     I w=1024;
     I h=1024;
-    Img<F> img(w,h);
-    mtx mvp=
-        prspctv(RAD(60),(F)w/(F)h,3.7f,11.4f)*
-        lookAt(vc3{4.8f,3,4.8f},vc3{},vc3{0,1,0});
+    Img<F>img(w,h);
+    A p=prspctv(RAD(60),(F)w/(F)h,3.7f,11.4f);
+    A v=lookAt(vc3{4.8f,3,4.8f},vc3{},vc3{0,1,0});
+    A mvp=p*v;
     F gridDim=6;
     I gridRes=48;
     auto grid=createGrid(gridDim,gridRes,0.8f);
     FOR(y,gridRes)
         FOR(x,gridRes){
             I i=y*gridRes+x;
-            vc4 p0=img.prjct(mvp*grid[i]);
+            A p0=img.prjct(mvp*grid[i]);
             if(x<gridRes-1)
                 drawLine(img,p0,mvp*grid[i+1]);
             if(y<gridRes-1)
                 drawLine(img,p0,mvp*grid[i+gridRes]);
         }
     pgm("gd",w,h,&img[0]);
+    Wndw wndw(w,h);
+    F angle=0;
+    while(wndw.o){
+        wndw.tick();
+        // img.clear();
+        angle+=0.001f;
+        A r = rotate(mtxIdnty(),angle,vc3{0,1,0});
+        mvp=p*v*r;
+        FOR(y,gridRes)
+            FOR(x,gridRes){
+                I i=y*gridRes+x;
+                A p0=img.prjct(mvp*grid[i]);
+                if(x<gridRes-1)
+                    drawLine(img,p0,mvp*grid[i+1]);
+                if(y<gridRes-1)
+                    drawLine(img,p0,mvp*grid[i+gridRes]);
+            }
+        // wndw.frmbf.clr();
+        FOR(i,img.size()){
+            wndw.frmbf.pxl(i,vc3{ 1,1,1}*img[i]);
+        }
+    }
     return 0;
 }

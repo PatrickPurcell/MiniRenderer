@@ -19,6 +19,7 @@
 #define PL 1
 #include<X11/Xlib.h>
 #endif
+
 #define A auto
 #define B uint8_t
 // #define C Reserved for use in templates...TODO : Remove

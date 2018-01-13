@@ -39,17 +39,22 @@ public:
     }
 
     TMP<I N>
-    vc<N>nrmlz(vc<N>&v)
+    A nrmlz(vc<N>&v)
     {
-        vc<N>r=v;
+        A r=v;
         r[0]=lrp(w*.5f,(F)w,v[0]);
         r[1]=lrp(h*.5f,(F)h,-v[1]);
         R r;
     }
 
-    vc4 prjct(vc4&v)
+    A prjct(vc4&v)
     {
         R nrmlz(v/v[3]);
+    }
+
+    V clr()
+    {
+        fill(begin(),end(),0);
     }
 };
 
@@ -113,7 +118,7 @@ V xWu(Img<T>&img,VT v0,VT v1,T c)
         swap(v0[1],v1[1]);
     }
     F intrcpt=0;
-    VT dlt=v1-v0;
+    A dlt=v1-v0;
     F grdnt=dlt[0]?dlt[1]/dlt[0]:1;
     I xpxl1=xWuE(img,v0,steep,grdnt,c,&intrcpt);
     I xpxl2=xWuE(img,v1,steep,grdnt,c);
