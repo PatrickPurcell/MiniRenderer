@@ -30,43 +30,33 @@ auto createGrid(F dim,I res,F sd)
     R r;
 }
 
+auto drawLine(Img<F>&img,vc4&p0,vc4 p1)
+{
+    p1=img.prjct(p1);
+    F c=(p0[2]+p1[2])/2;
+    if(0<p0[2]&&p0[2]<1&&0<p1[2]&&p1[2]<1)
+        xWu(img,p0,p1,1-c+0.08f);
+}
+
 int main()
 {
     I w=1024;
     I h=1024;
     Img<F> img(w,h);
-    mtx m=mtxIdnty();
-    mtx v=lookAt(vc3{4.8f,3,4.8f},vc3{},vc3{0,1,0});
-    mtx p=prspctv(RAD(60),(F)w/(F)h,3.7f,11.4f);
-    mtx mvp=p*v*m;
+    mtx mvp=
+        prspctv(RAD(60),(F)w/(F)h,3.7f,11.4f)*
+        lookAt(vc3{4.8f,3,4.8f},vc3{},vc3{0,1,0});
     F gridDim=6;
     I gridRes=48;
     auto grid=createGrid(gridDim,gridRes,0.8f);
     FOR(y,gridRes)
         FOR(x,gridRes){
             I i=y*gridRes+x;
-            vc4 p0=grid[i];
-            p0=mvp*p0;
-            p0=p0/p0[3];
-            p0=img.nrmlz(p0);
-            if(x<gridRes-1){
-                vc4 p1=grid[i+1];
-                p1=mvp*p1;
-                p1=p1/p1[3];
-                p1=img.nrmlz(p1);
-                F c=(p0[2]+p1[2])/2;
-                if(0<p0[2]&&p0[2]<1&&0<p1[2]&&p1[2]<1)
-                    xWu(img, p0, p1, 1-c+0.08f);
-            }
-            if(y<gridRes-1){
-                vc4 p1=grid[i+gridRes];
-                p1=mvp*p1;
-                p1=p1/p1[3];
-                p1=img.nrmlz(p1);
-                F c=(p0[2]+p1[2])/2;
-                if(0<p0[2]&&p0[2]<1&&0<p1[2]&&p1[2]<1)
-                    xWu(img, p0, p1,1-c+0.08f);
-            }
+            vc4 p0=img.prjct(mvp*grid[i]);
+            if(x<gridRes-1)
+                drawLine(img,p0,mvp*grid[i+1]);
+            if(y<gridRes-1)
+                drawLine(img,p0,mvp*grid[i+gridRes]);
         }
     pgm("gd",w,h,&img[0]);
     return 0;

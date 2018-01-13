@@ -12,6 +12,7 @@ set(includeFiles
     ${includePath}/MiniGLM_ex.hpp
     ${includePath}/MiniPgm.hpp
     ${includePath}/MiniRenderer.hpp
+    ${includePath}/MiniWindow.hpp
 )
 
 macro(create_executable target)
