@@ -28,7 +28,7 @@
  * @param [in] b The maximum value
  * @return The clamped value
  */
-TMP<TYP T>T clmp(T t,T a,T b){R min(max(a,t),b);}
+TMP<TYP T>T clmp(T t,T a=T{0},T b=T{1}){R min(max(a,t),b);}
 
 /**
  * Gets a linear interpolation from one floating point value to another using a 0-1 weighting.
@@ -211,9 +211,9 @@ A rotate(mtx&m,F a,vc3&v)
 
 #define PI 3.14159265358979f
 #define RAD(DEG)(PI/180*DEG)
-TMP<TYP T>T clmp(T t,T a,T b){R min(max(a,t),b);}F lrp(F a,F b,F t){R fma(t,b,
-fma(-t,a,a));}TMP<I N>using vc=array<F,N>;using vc2=vc<2>;using vc3=vc<3>;using
-vc4=vc<4>;
+TMP<TYP T>T clmp(T t,T a=T{0},T b=T{1}){R min(max(a,t),b);}F lrp(F a,F b,F t){R
+fma(t,b,fma(-t,a,a));}TMP<I N>using vc=array<F,N>;using vc2=vc<2>;using vc3=vc<3
+>;using vc4=vc<4>;
 #define VO(OP)TMP<I N>A O OP(const vc<N>&l,const vc<N>&r){vc<N> rv;FOR(i,N)rv[i\
 ]=l[i]OP r[i];R rv;}TMP<I N>A&O OP=(vc<N>&l,const vc<N>&r){l=l+r;R l;}TMP<I N>\
 A O OP(const vc<N>&l,F r){vc<N> rv;FOR(i,N)rv[i]=l[i]OP r;R rv;}TMP<I N>A&O OP=\

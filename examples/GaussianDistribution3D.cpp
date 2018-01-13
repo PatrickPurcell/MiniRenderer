@@ -39,7 +39,7 @@ auto drawLine(Img<F>&img,vc4&p0,vc4 p1)
         xWu(img,p0,p1,1-c+0.08f);
 }
 
-int main()
+V main()
 {
     I w=1024;
     I h=1024;
@@ -65,22 +65,21 @@ int main()
     while(wndw.o){
         wndw.tick();
         // img.clear();
-        angle+=0.001f;
-        A r = rotate(mtxIdnty(),angle,vc3{0,1,0});
-        mvp=p*v*r;
-        FOR(y,gridRes)
-            FOR(x,gridRes){
-                I i=y*gridRes+x;
-                A p0=img.prjct(mvp*grid[i]);
-                if(x<gridRes-1)
-                    drawLine(img,p0,mvp*grid[i+1]);
-                if(y<gridRes-1)
-                    drawLine(img,p0,mvp*grid[i+gridRes]);
-            }
+        //// angle+=0.001f;
+        //// A r = rotate(mtxIdnty(),angle,vc3{0,1,0});
+        //// mvp=p*v*r;
+        //// FOR(y,gridRes)
+        ////     FOR(x,gridRes){
+        ////         I i=y*gridRes+x;
+        ////         A p0=img.prjct(mvp*grid[i]);
+        ////         if(x<gridRes-1)
+        ////             drawLine(img,p0,mvp*grid[i+1]);
+        ////         if(y<gridRes-1)
+        ////             drawLine(img,p0,mvp*grid[i+gridRes]);
+        ////     }
         // wndw.frmbf.clr();
         FOR(i,img.size()){
-            wndw.frmbf.pxl(i,vc3{ 1,1,1}*img[i]);
+            wndw.frmbf.pxl(i,vc3{1,1,1}-img[i]);
         }
     }
-    return 0;
 }

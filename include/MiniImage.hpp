@@ -52,9 +52,9 @@ public:
         R nrmlz(v/v[3]);
     }
 
-    V clr()
+    V clr(T c={})
     {
-        fill(begin(),end(),0);
+        fill(begin(),end(),c);
     }
 };
 
@@ -106,8 +106,8 @@ V xWu(Img<T>&img,VT v0,VT v1,T c)
     swap(v1[0],v1[1]);
     F x0=v0[0];
     F y0=v0[1];
-    F x1=v0[0];
-    F y1=v0[1];
+    F x1=v1[0];
+    F y1=v1[1];
     bool steep=abs(y1-y0)>abs(x1-x0);
     if(steep){
         swap(v0[0],v0[1]);
