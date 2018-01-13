@@ -10,17 +10,16 @@ set(includeFiles
     ${includePath}/Defines.hpp
     ${includePath}/MiniGLM.hpp
     ${includePath}/MiniGLM_ex.hpp
+    ${includePath}/MiniPgm.hpp
     ${includePath}/MiniRenderer.hpp
-    ${includePath}/Pgm.hpp
 )
 
-add_executable(MiniWindow ${includeFiles} ${CMAKE_CURRENT_SOURCE_DIR}/Main.cpp)
-target_include_directories(MiniWindow PUBLIC "${includePath}")
-
 macro(create_executable target)
-    add_executable(${target} ${includeFiles} ${CMAKE_CURRENT_SOURCE_DIR}/${target}.cpp)
+    add_executable(${target} ${includeFiles} ${CMAKE_CURRENT_SOURCE_DIR}/examples/${target}.cpp)
     target_include_directories(${target} PUBLIC "${includePath}")
 endmacro()
 
-create_executable(3DBlockBuilding)
+create_executable(BlockBuilding3D)
+create_executable(GaussianDistribution3D)
 create_executable(ImgToPgm)
+create_executable(Mandelbrot)
