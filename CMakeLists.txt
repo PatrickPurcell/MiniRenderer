@@ -17,5 +17,10 @@ set(includeFiles
 add_executable(MiniWindow ${includeFiles} ${CMAKE_CURRENT_SOURCE_DIR}/Main.cpp)
 target_include_directories(MiniWindow PUBLIC "${includePath}")
 
-add_executable(3DBlockBuilding ${includeFiles} ${CMAKE_CURRENT_SOURCE_DIR}/3DBlockBuilding.cpp)
-target_include_directories(3DBlockBuilding PUBLIC "${includePath}")
+macro(create_executable target)
+    add_executable(${target} ${includeFiles} ${CMAKE_CURRENT_SOURCE_DIR}/${target}.cpp)
+    target_include_directories(${target} PUBLIC "${includePath}")
+endmacro()
+
+create_executable(3DBlockBuilding)
+create_executable(ImgToPgm)

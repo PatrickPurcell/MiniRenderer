@@ -15,14 +15,15 @@
 #include<fstream>
 
 /**
- * Writes a grayscale image to a pgm file named "out.pgm".
+ * Writes a gray scale image to a pgm file.
+ * @param [in] s The path and name of the pgm to write
  * @param [in] w The width of the image
  * @param [in] h The height of the image
  * @param [in] p The image's pixels as an array of floats [0-1]
  */
-V pgm(I w,I h,F*p)
+V pgm(string s,I w,I h,F*p)
 {
-    ofstream f("out.pgm");
+    ofstream f(s+".pgm");
     f<<"P2\n"<<w<<" "<<h<<"\n"<<"255"<<"\n";
     FOR(y,h){
         FOR(x,w)
@@ -32,14 +33,15 @@ V pgm(I w,I h,F*p)
 }
 
 /**
- * Writes an RGB image to a pgm file named "out.pgm".
+ * Writes an RGB image to a pgm file.
+ * @param [in] s The path and name of the pgm to write
  * @param [in] w The width of the image
  * @param [in] h The height of the image
  * @param [in] p The image's pixels as an array of vc3s
  */
-V pgm(I w,I h,vc3*p)
+V pgm(string s,I w,I h,vc3*p)
 {
-    ofstream f("out.pgm");
+    ofstream f(s+".pgm");
     f<<"P3\n"<<w<<" "<<h<<"\n"<<"255"<<"\n";
     FOR(y,h){
         FOR(x,w)

@@ -18,70 +18,68 @@
 /**
  * TODO : Documentation.
  */
-TMP<I W,I H,TYP T>
-struct Img
-    : public array<T,W*H>
+TMP<TYP T>
+class Img
+    :public vector<T>
 {
-    /**
-     * TODO : Documentation.
-     */
+public:
+    I w,h;
+
+    Img(I w,I h)
+        :w{w}
+        ,h{h}
+        ,vector<T>(w*h)
+    {
+    }
+
     T&pxl(I x,I y)
     {
         static T n;
-        R x<W&&y<H?this->O[](y*W+x):n;
+        R x<w&&y<h?this->O[](y*w+x):n;
     }
 
-    /**
-     * TODO : Documentation.
-     */
     TMP<I N>
     vc<N>nrmlz(vc<N>&v)
     {
-        F w=(F)W;
-        F h=(F)H;
         R{
-            lrp(w/2,w,v[0]),
-            lrp(h/2,h,-v[1])
+            lrp(w*.5f,w,v[0]),
+            lrp(h*.5f,h,-v[1])
         };
     }
 };
 
 /**
- * TODO : Documentation.
  * Xialin Wu's line algorithm fpart().
  * https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
  */
 F xWuF(F f){f-=floor(f);R f<0?1-f:f;}
 
 /**
- * TODO : Documentation.
  * Xialin Wu's line algorithm rfpart().
  * https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
  */
 F xWuRF(F f){R 1-xWuF(f);}
 
 /**
- * TODO : Documentation.
  * Xialin Wu's line algorithm endpoint().
  * https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
  */
-TMP<I W,I H,TYP T>
-V xWuE_ungolfed(Img<W,H,T>&img)
+TMP<TYP T>
+V xWuE(Img<T>&img)
 {
 
 }
 
 /**
- * TODO : Documentation.
  * Xialin Wu's line algorithm.
  * https://en.wikipedia.org/wiki/Xiaolin_Wu%27s_line_algorithm
- * @param [in] img
- * @param [in] a   The point to start the line at
- * @param [in] b   The point to end the line at
- * @param [in] c   The opacity of the line
+ * @param [in] img The image to render a line into
+ * @param [in] a   The line start point
+ * @param [in] b   The line end point
+ * @param [in] c   The line color
  */
-TMP<I W, I H, TYP T>
-V xWu_ungolfed(Img<W,H,T>&img,vc<2>&a,vc<2>&b,F c)
+TMP<TYP T>
+V xWu(Img<T>&img,vc<2>&a,vc<2>&b,T&c)
 {
 
 }
