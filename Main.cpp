@@ -9,6 +9,9 @@ reset; g++ -std=c++11 -Wall Main.cpp -o MiniWindow -lX11; ./MiniWindow
 
 */
 
+#include "Defines.hpp"
+#include "MiniGLM.hpp"
+
 #include <cmath>
 #include <thread>
 #include <cstdint>
@@ -19,21 +22,6 @@ reset; g++ -std=c++11 -Wall Main.cpp -o MiniWindow -lX11; ./MiniWindow
 
 #include <array>
 #include <vector>
-
-#if defined(_WIN32) || defined(_WIN64)
-#define WIN_32_LEAN_AND_MEAN
-#define NOMINMAX
-#define PW (1)
-#include<Windows.h>
-#endif
-
-#if defined(__linux)
-#define PL (1)
-#include <X11/Xlib.h>
-#endif
-
-#include "Defines.hpp"
-#include "MiniGLM.hpp"
 
 using namespace std;
 using namespace glm;

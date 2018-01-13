@@ -1,12 +1,12 @@
 
 #pragma once
 
+#include "Defines.hpp"
+
 #include <array>
 #include <cmath>
 #include <string>
 #include <algorithm>
-
-#include "Defines.hpp"
 
 namespace glm {
     template <size_t C>
