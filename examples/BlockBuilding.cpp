@@ -179,21 +179,21 @@ void main()
         1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1
     };
     blocks(
-        input,               // Input data
-        11,                  // Input width
-        11,                  // Input height
-        840,                 // Ouptut width
-        840,                 // Output height
-        true,                // Enable back face culling
-        true,                // Enable hollow structures
-        68.0f,               // Field of view (Degrees)
-        2.4f,                // Near plane
-        36.0f,               // Far plane
-        vc3 { -8, 4.6f, 8 }, // Camera position (a block is 1 world unit cubed)
-        1.4f,                // Camera rotation speed (world units per frame)
-        2.8f,                // Camera crane amplitude (world units)
-        0.02f,               // Camera crane frequency (crane amplitude per frame)
-        true,                // Write image to "blocks.pgm"
-        true                 // Render (Windows only)
+        input,            // Input data
+        11,               // Input width
+        11,               // Input height
+        840,              // Ouptut width
+        840,              // Output height
+        true,             // Enable back face culling
+        true,             // Enable hollow structures
+        68.0f,            // Field of view (degrees)
+        2.4f,             // Near plane
+        36.0f,            // Far plane
+        vc3 { -8, 8, 8 }, // Camera position (a block is 1 world unit cubed)
+        1.4f,             // Camera rotation speed (world units per frame)
+        2.8f,             // Camera crane amplitude (world units)
+        0.02f,            // Camera crane frequency (per frame)
+        true,             // Write image to "blocks.pgm"
+        true              // Render (Windows only)
     );
 }
