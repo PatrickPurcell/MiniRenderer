@@ -22,6 +22,7 @@ macro(create_example target)
 endmacro()
 
 create_example(BlockBuilding)
+create_example(BlockBuilding.Golfed)
 create_example(Cube)
 create_example(GaussianDistribution3D)
 create_example(ImgToPgm)
