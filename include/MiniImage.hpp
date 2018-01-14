@@ -9,11 +9,8 @@
 
 #pragma once
 
-#include "Defines.hpp"
+#include "MiniDefines.hpp"
 #include "MiniGLM_ex.hpp"
-
-#include <utility>
-#include <vector>
 
 /**
  * TODO : Documentation.

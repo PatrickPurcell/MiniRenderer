@@ -9,7 +9,15 @@
 
 #pragma once
 
-// #define MINI_RENDERER_UNGOLFED
+#include<algorithm>
+#include<array>
+#include<cmath>
+#include<fstream>
+#include<iostream>
+#include<string>
+#include<thread>
+#include<utility>
+#include<vector>
 
 #if defined _WIN32||defined _WIN64
 #define WIN_32_LEAN_AND_MEAN
@@ -21,6 +29,8 @@
 #define PL 1
 #include<X11/Xlib.h>
 #endif
+
+// #define MINI_RENDERER_UNGOLFED
 
 #define A auto
 #define B uint8_t

@@ -9,9 +9,8 @@
 
 #pragma once
 
-#include"Defines.hpp"
+#include"MiniDefines.hpp"
 #include"MiniGLM_ex.hpp"
-#include<fstream>
 
 // #define MINI_PGM_UNGOLFED
 #if defined MINI_PGM_UNGOLFED||defined MINI_RENDERER_UNGOLFED

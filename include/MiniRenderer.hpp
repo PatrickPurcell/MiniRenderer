@@ -7,11 +7,10 @@
 ==========================================
 */
 
-#include "MiniDefines.hpp"
-#include "MiniGLM_ex.hpp"
-#include "MiniPgm.hpp"
+#pragma once
 
-int main()
-{
-    return 0;
-}
+#include"MiniDefines.hpp"
+#include"MiniGLM_ex.hpp"
+#include"MiniImage.hpp"
+#include"MiniPgm.hpp"
+#include"MiniWindow.hpp"

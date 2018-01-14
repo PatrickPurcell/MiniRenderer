@@ -9,12 +9,9 @@
 
 #pragma once
 
-#include"Defines.hpp"
+#include"MiniDefines.hpp"
 #include"MiniGLM_ex.hpp"
 #include"MiniImage.hpp"
-#include<array>
-
-#include <iostream>
 
 #if PW
 

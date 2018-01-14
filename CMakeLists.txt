@@ -7,11 +7,12 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(includePath "${CMAKE_CURRENT_SOURCE_DIR}/include/")
 set(includeFiles
-    ${includePath}/Defines.hpp
+    ${includePath}/MiniDefines.hpp
     ${includePath}/MiniGLM.hpp
     ${includePath}/MiniGLM_ex.hpp
     ${includePath}/MiniImage.hpp
     ${includePath}/MiniPgm.hpp
+    ${includePath}/MiniRenderer.hpp
     ${includePath}/MiniWindow.hpp
 )
 

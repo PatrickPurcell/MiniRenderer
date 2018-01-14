@@ -9,7 +9,7 @@ reset; g++ -std=c++11 -Wall Main.cpp -o MiniWindow -lX11; ./MiniWindow
 
 */
 
-#include "Defines.hpp"
+#include "MiniDefines.hpp"
 #include "MiniGLM.hpp"
 
 #include <cmath>

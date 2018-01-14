@@ -9,10 +9,7 @@
 
 #pragma once
 
-#include"Defines.hpp"
-#include<algorithm>
-#include<array>
-#include<cmath>
+#include"MiniDefines.hpp"
 
 #define MINI_GLM_UNGOLFED
 #if defined MINI_GLM_UNGOLFED||defined MINI_RENDERER_UNGOLFED

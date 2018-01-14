@@ -7,14 +7,7 @@
 ==========================================
 */
 
-#include"Defines.hpp"
-#include"MiniGLM_ex.hpp"
-#include"MiniImage.hpp"
-#include"MiniPgm.hpp"
-#include"MiniWindow.hpp"
-#include<array>
-#include<thread>
-#include<vector>
+#include"MiniRenderer.hpp"
 
 V ln(Img<F>&img,vc4&v0,vc4&v1)
 {
@@ -93,6 +86,5 @@ V main()
         }
         FOR(i,img.size())
             wndw.frmbf.pxl(i,vc3{1,1,1}*img[i]);
-        //this_thread::sleep_for(16ms);
     }
 }

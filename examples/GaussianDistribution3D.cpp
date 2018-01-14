@@ -7,13 +7,7 @@
 ==========================================
 */
 
-#include"Defines.hpp"
-#include"MiniGLM_ex.hpp"
-#include"MiniImage.hpp"
-#include"MiniPgm.hpp"
-#include"MiniWindow.hpp"
-#include<thread>
-#include<vector>
+#include"MiniRenderer.hpp"
 
 auto createGrid(F dim,I res,F sd)
 {
@@ -79,6 +73,5 @@ V main()
             }
         FOR(i,img.size())
             wndw.frmbf.pxl(i,vc3{1,1,1}*img[i]);
-        this_thread::sleep_for(16ms);
     }
 }
