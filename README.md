@@ -1,1 +1,1 @@
-# MiniWindow
+# MiniRenderer
