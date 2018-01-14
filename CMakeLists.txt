@@ -21,7 +21,7 @@ macro(create_example target)
     target_include_directories(${target} PUBLIC "${includePath}")
 endmacro()
 
-create_example(BlockBuilding3D)
+create_example(BlockBuilding)
 create_example(Cube)
 create_example(GaussianDistribution3D)
 create_example(ImgToPgm)
