@@ -35,11 +35,11 @@
 #define A auto
 #define B uint8_t
 // #define C Reserved for use in templates...TODO : Remove
-#define D
+// #define D Reserved for general use
 #define E
 #define F float
-#define G
-// #define H Reserved for global height
+// #define G Reserved for general use
+// #define H Reserved for general use
 #define I int
 #define J
 #define K
@@ -54,7 +54,7 @@
 // #define T Reserved for use in templates
 #define U uint32_t // TODO : Remove
 #define V void
-// #define W Reserved for global width
+// #define W Reserved for general use
 #define X
 #define Y
 #define Z size_t // TODO : Remove

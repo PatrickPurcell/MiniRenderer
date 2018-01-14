@@ -43,30 +43,30 @@ TMP<I N>using vc=array<F,N>;
 using vc2=vc<2>;
 using vc3=vc<3>;
 using vc4=vc<4>;
-#define VO(OP)                              \
-TMP<I N>A O OP(const vc<N>&l,const vc<N>&r) \
-{                                           \
-    vc<N> rv;                               \
-    FOR(i,N)                                \
-        rv[i]=l[i]OP r[i];                  \
-    R rv;                                   \
-}                                           \
-TMP<I N>A&O OP=(vc<N>&l,const vc<N>&r)      \
-{                                           \
-    l=l+r;                                  \
-    R l;                                    \
-}                                           \
-TMP<I N>A O OP(const vc<N>&l,F r)           \
-{                                           \
-    vc<N> rv;                               \
-    FOR(i,N)                                \
-        rv[i]=l[i]OP r;                     \
-    R rv;                                   \
-}                                           \
-TMP<I N>A&O OP=(vc<N>&l,F r)                \
-{                                           \
-    l=l+r;                                  \
-    R l;                                    \
+#define VO(OP)                   \
+TMP<I N>A O OP(vc<N>&l,vc<N>&r)  \
+{                                \
+    vc<N> rv;                    \
+    FOR(i,N)                     \
+        rv[i]=l[i]OP r[i];       \
+    R rv;                        \
+}                                \
+TMP<I N>A&O OP=(vc<N>&l,vc<N>&r) \
+{                                \
+    l=l+r;                       \
+    R l;                         \
+}                                \
+TMP<I N>A O OP(vc<N>&l,F r)      \
+{                                \
+    vc<N> rv;                    \
+    FOR(i,N)                     \
+        rv[i]=l[i]OP r;          \
+    R rv;                        \
+}                                \
+TMP<I N>A&O OP=(vc<N>&l,F r)     \
+{                                \
+    l=l+r;                       \
+    R l;                         \
 }
 VO(+)
 VO(-)
@@ -176,6 +176,19 @@ A prspctv(F fv,F ar,F zn,F zf)
     R rv;
 }
 
+/**
+ * TODO : Documentation.
+ */
+A trnslt(mtx&m,vc3&v)
+{
+    A rv=m;
+    rv[3]=m[0]*v[0]+m[1]*v[1]+m[2]*v[2]+m[3];
+    R rv;
+}
+
+/**
+ * TODO : Documentation.
+ */
 A rotate(mtx&m,F a,vc3&v)
 {
     F c=cos(a);

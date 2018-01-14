@@ -37,7 +37,7 @@ public:
     T&pxl(I x,I y)
     {
         static T n;
-        R x<w&&y<h?this->O[](y*w+x):n;
+        R 0<=x&&x<w&&0<=y&&y<h?this->O[](y*w+x):n;
     }
 
     TMP<I N>
