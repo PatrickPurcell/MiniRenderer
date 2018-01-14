@@ -94,19 +94,16 @@ I cn(I h, I n)
     R n&&(h<=n-1||h==abs(n)-1);
 }
 
-V blocks(I*in,I inW,I inH)
+V blocks(I*in,I inW,I inH,I oW,I oH,F fv,F np,F fp,vc3 c,I pgm,I gfx)
 {
     Img<I>in_ex(inW,inH);
     memcpy(&in_ex[0],in,in_ex.size()*sizeof(I));
-
-    I w=840;
-    I h=840;
-    Img<F>img(w,h);
-    Wndw wndw(w,h);
+    Img<F>img(oW,oH);
+    Wndw wndw(oW,oH);
     while(wndw.o){
         wndw.tick();
         img.clr();
-        A m=prspctv(RAD(75),(F)w/(F)h,6.4f,24.4f)*lookAt(vc3{-7,8,8},vc3{},vc3{0,1,0});
+        A m=prspctv(RAD(fv),(F)oW/(F)oH,6.4f,24.4f)*lookAt(c,vc3{},vc3{0,1,0});
         FOR(y,inH)
             FOR(x,inW){
                 I t=in_ex.pxl(x,y);
@@ -146,5 +143,17 @@ void main()
         1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1,
         1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1
     };
-    blocks(input,11,11);
+    blocks(
+        input,
+        11,               // Input width
+        11,               // Input height
+        840,              // Ouptut width
+        840,              // Output height
+        68.0f,            // Field of view (degrees)
+        6.4f,             // Near plane
+        24.4f,            // Far plane
+        vc3 { -8, 8, 8 }, // Camera position
+        true,             // Write image to "blocks.pgm"
+        true              // Render (Windows only)
+    );
 }
