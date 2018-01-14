@@ -26,10 +26,15 @@ public:
     I w,h;
 
     Img(I w,I h)
-        :w{w}
-        ,h{h}
-        ,vector<T>(w*h)
     {
+        rsz(w,h);
+    }
+
+    V rsz(I _w,I _h)
+    {
+        w=_w;
+        h=_h;
+        resize(w*h);
     }
 
     T&pxl(I x,I y)

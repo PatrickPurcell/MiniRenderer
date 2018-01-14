@@ -14,7 +14,7 @@
 #include<array>
 #include<cmath>
 
-// #define MINI_GLM_UNGOLFED
+#define MINI_GLM_UNGOLFED
 #if defined MINI_GLM_UNGOLFED||defined MINI_RENDERER_UNGOLFED
 
 #define PI 3.14159265358979f
@@ -200,9 +200,9 @@ A rotate(mtx&m,F a,vc3&v)
     r[2][2]=c+temp[2]*axis[2];
 
     A rv=mtxIdnty();
-    rv[0]=m[0]*rv[0][0]+m[1]*rv[0][1]+m[2]*rv[0][2];
-    rv[1]=m[0]*rv[1][0]+m[1]*rv[1][1]+m[2]*rv[1][2];
-    rv[2]=m[0]*rv[2][0]+m[1]*rv[2][1]+m[2]*rv[2][2];
+    rv[0]=m[0]*r[0][0]+m[1]*r[0][1]+m[2]*r[0][2];
+    rv[1]=m[0]*r[1][0]+m[1]*r[1][1]+m[2]*r[1][2];
+    rv[2]=m[0]*r[2][0]+m[1]*r[2][1]+m[2]*r[2][2];
     rv[3]=m[3];
     R rv;
 }
