@@ -15,12 +15,13 @@ set(includeFiles
     ${includePath}/MiniWindow.hpp
 )
 
-macro(create_executable target)
+macro(create_example target)
     add_executable(${target} ${includeFiles} ${CMAKE_CURRENT_SOURCE_DIR}/examples/${target}.cpp)
     target_include_directories(${target} PUBLIC "${includePath}")
 endmacro()
 
-create_executable(BlockBuilding3D)
-create_executable(GaussianDistribution3D)
-create_executable(ImgToPgm)
-create_executable(Mandelbrot)
+create_example(BlockBuilding3D)
+create_example(Cube)
+create_example(GaussianDistribution3D)
+create_example(ImgToPgm)
+create_example(Mandelbrot)

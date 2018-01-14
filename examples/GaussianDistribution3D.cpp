@@ -77,9 +77,8 @@ V main()
                 if(y<gridRes-1)
                     line(img,p0,m*grid[i+gridRes]);
             }
-        FOR(i,img.size()){
+        FOR(i,img.size())
             wndw.frmbf.pxl(i,vc3{1,1,1}*img[i]);
-        }
         this_thread::sleep_for(16ms);
     }
 }
