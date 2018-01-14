@@ -11,7 +11,7 @@
 
 #include"MiniDefines.hpp"
 
-#define MINI_GLM_UNGOLFED
+// #define MINI_GLM_UNGOLFED
 #if defined MINI_GLM_UNGOLFED||defined MINI_RENDERER_UNGOLFED
 
 #define PI 3.14159265358979f
@@ -224,10 +224,9 @@ A rotate(mtx&m,F a,vc3&v)
 TMP<TYP T>T clmp(T t,T a=T{0},T b=T{1}){R min(max(a,t),b);}F lrp(F a,F b,F t){R
 fma(t,b,fma(-t,a,a));}TMP<I N>using vc=array<F,N>;using vc2=vc<2>;using vc3=vc<3
 >;using vc4=vc<4>;
-#define VO(OP)TMP<I N>A O OP(const vc<N>&l,const vc<N>&r){vc<N> rv;FOR(i,N)rv[i\
-]=l[i]OP r[i];R rv;}TMP<I N>A&O OP=(vc<N>&l,const vc<N>&r){l=l+r;R l;}TMP<I N>\
-A O OP(const vc<N>&l,F r){vc<N> rv;FOR(i,N)rv[i]=l[i]OP r;R rv;}TMP<I N>A&O OP=\
-(vc<N>&l,F r){l=l+r;R l;}
+#define VO(OP)TMP<I N>A O OP(vc<N>&l,vc<N>&r){vc<N> rv;FOR(i,N)rv[i]=l[i]OP r[i\
+];R rv;}TMP<I N>A&O OP=(vc<N>&l,vc<N>&r){l=l+r;R l;}TMP<I N>A O OP(vc<N>&l,F r)\
+{vc<N> rv;FOR(i,N)rv[i]=l[i]OP r;R rv;}TMP<I N>A&O OP=(vc<N>&l,F r){l=l+r;R l;}
 VO(+)VO(-)VO(*)VO(/)TMP<I N>F dot(vc<N>&l,vc<N>&r){F rv=0;FOR(i,N)rv+=l[i]*r[i];
 R rv;}TMP<I N>A nrmlz(vc<N>v){R v/sqrt(dot(v,v));}vc3 cross(vc3&l,vc3&r){R{l[1]*
 r[2]-r[1]*l[2],l[2]*r[0]-r[2]*l[0],l[0]*r[1]-r[0]*l[1]};}TMP<I N>vc<N>strt(vc<N>
@@ -244,13 +243,14 @@ A rv=mtxIdnty();rv[0][0]=s[0];rv[1][0]=s[1];rv[2][0]=s[2];rv[0][1]=u[0];rv[1][1]
 =u[1];rv[2][1]=u[2];rv[0][2]=-f[0];rv[1][2]=-f[1];rv[2][2]=-f[2];rv[3][0]=-dot(s
 ,e);rv[3][1]=-dot(u,e);rv[3][2]=dot(f,e);R rv;}A prspctv(F fv,F ar,F zn,F zf){F
 tnHlfFv=tan(fv/2);A rv=mtxIdnty();rv[0][0]=1/(tnHlfFv*ar);rv[1][1]=1/tnHlfFv;rv[
-2][3]=-1;rv[2][2]=zf/(zn-zf);rv[3][2]=-(zf*zn)/(zf-zn);R rv;}A rotate(mtx&m,F a,
-vc3&v){F c=cos(a);F s=sin(a);A axis=nrmlz(v);A temp=axis*(1-c);A r=mtxIdnty();r[
-0][0]=c+temp[0]*axis[0];r[0][1]=temp[0]*axis[1]+s*axis[2];r[0][2]=temp[0]*axis[2
-]-s*axis[1];r[1][0]=temp[1]*axis[0]-s*axis[2];r[1][1]=c+temp[1]*axis[1];r[1][2]=
-temp[1]*axis[2]+s*axis[0];r[2][0]=temp[2]*axis[0]+s*axis[1];r[2][1]=temp[2]*axis
-[1]-s*axis[0];r[2][2]=c+temp[2]*axis[2];A rv=mtxIdnty();rv[0]=m[0]*rv[0][0]+m[1]
-*rv[0][1]+m[2]*rv[0][2];rv[1]=m[0]*rv[1][0]+m[1]*rv[1][1]+m[2]*rv[1][2];rv[2]=m[
-0]*rv[2][0]+m[1]*rv[2][1]+m[2]*rv[2][2];rv[3]=m[3];R rv;}
+2][3]=-1;rv[2][2]=zf/(zn-zf);rv[3][2]=-(zf*zn)/(zf-zn);R rv;}A trnslt(mtx&m,vc3&
+v){A rv=m;rv[3]=m[0]*v[0]+m[1]*v[1]+m[2]*v[2]+m[3];R rv;}A rotate(mtx&m,F a,vc3&
+v){F c=cos(a);F s=sin(a);A axis=nrmlz(v);A temp=axis*(1-c);A r=mtxIdnty();r[0][0
+]=c+temp[0]*axis[0];r[0][1]=temp[0]*axis[1]+s*axis[2];r[0][2]=temp[0]*axis[2]-s*
+axis[1];r[1][0]=temp[1]*axis[0]-s*axis[2];r[1][1]=c+temp[1]*axis[1];r[1][2]=temp
+[1]*axis[2]+s*axis[0];r[2][0]=temp[2]*axis[0]+s*axis[1];r[2][1]=temp[2]*axis[1]-
+s*axis[0];r[2][2]=c+temp[2]*axis[2];A rv=mtxIdnty();rv[0]=m[0]*r[0][0]+m[1]*r[0]
+[1]+m[2]*r[0][2];rv[1]=m[0]*r[1][0]+m[1]*r[1][1]+m[2]*r[1][2];rv[2]=m[0]*r[2][0]
++m[1]*r[2][1]+m[2]*r[2][2];rv[3]=m[3];R rv;}
 
 #endif
