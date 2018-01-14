@@ -7,6 +7,9 @@
 ==========================================
 */
 
+// Entry for a challenge on Code Golf
+// https://codegolf.stackexchange.com/questions/153109/3d-ascii-block-building
+
 #include"MiniRenderer.hpp"
 
 /**
@@ -53,9 +56,9 @@ vector<I>ib{
  */
 V ln(Img<F>&img,vc4&v0,vc4&v1)
 {
-    F c=1-(v0[2]+v1[2])/2+0.08f;
+    F c=1.05f-(v0[2]+v1[2])/2;
     if(0<v0[2]&&v0[2]<1&&0<v1[2]&&v1[2]<1)
-        xWu(img,v0,v1,c-0.08f);
+        xWu(img,v0,v1,c);
 }
 
 /**
@@ -63,8 +66,9 @@ V ln(Img<F>&img,vc4&v0,vc4&v1)
  * @param [in] img The Img<> to render into
  * @param [in] m   The mtx to transform each vertex by
  * @param [in] i   The index of the first element in the index buffer
+ * @param [in] b   Whether or not to enable back face culling
  */
-V rq(Img<F>&img,mtx&m,I i)
+V rq(Img<F>&img,mtx&m,I i,I b)
 {
     A v0=img.prjct(m*vb[ib[i]]);
     A v1=img.prjct(m*vb[ib[i+1]]);
@@ -75,12 +79,11 @@ V rq(Img<F>&img,mtx&m,I i)
     A c0=vc3{e0[0],e0[1],e0[2]};
     A c1=vc3{e1[0],e1[1],e1[2]};
     A c=cross(c0,c1);
-    if(dot(c,vc3{0,0,1})>0){
-        ln(img,v0,v1);
-        ln(img,v1,v2);
-        ln(img,v2,v3);
+    if(!b||dot(c,vc3{0,0,1})>0)
+        ln(img,v0,v1),
+        ln(img,v1,v2),
+        ln(img,v2,v3),
         ln(img,v3,v0);
-    }
 }
 
 /**
@@ -94,38 +97,70 @@ I cn(I h, I n)
     R n&&(h<=n-1||h==abs(n)-1);
 }
 
-V blocks(I*in,I inW,I inH,I oW,I oH,F fv,F np,F fp,vc3 c,I pgm,I gfx)
+/**
+ * Renders a single frame.
+ * @param [in] img The Img<> to render into
+ * @param [in] in  The Img<> to read column heights from
+ * @param [in] m   The view and projection matrix to use when rendering
+ * @param [in] b   Whether or not to enable back face culling
+ * @param [in] d   Whether or not to enable hollow structures
+ */
+V rf(Img<F>&img,Img<I>&in,mtx&m,I b,I d)
 {
-    Img<I>in_ex(inW,inH);
-    memcpy(&in_ex[0],in,in_ex.size()*sizeof(I));
-    Img<F>img(oW,oH);
-    Wndw wndw(oW,oH);
-    while(wndw.o){
-        wndw.tick();
-        img.clr();
-        A m=prspctv(RAD(fv),(F)oW/(F)oH,6.4f,24.4f)*lookAt(c,vc3{},vc3{0,1,0});
-        FOR(y,inH)
-            FOR(x,inW){
-                I t=in_ex.pxl(x,y);
-                I i=t>=0?0:abs(t)-1; // Jump to the top if we've got a negative value
-                t=abs(t);
-                for(;i<t;++i){
-                    A mvp=m*trnslt(mtxIdnty(),vc3{(F)x-in_ex.w*.5f,(F)i,(F)y-in_ex.h*.5f});
-                    if(i==t-1) // Every column needs a top
-                        rq(img,mvp,0);
-                    if(!cn(i,in_ex.pxl(x,y-1))) // If no neighber N render back face
-                        rq(img,mvp,16);
-                    if(!cn(i,in_ex.pxl(x+1,y))) // If no neighber E render right face
-                        rq(img,mvp,12);
-                    if(!cn(i,in_ex.pxl(x,y+1))) // If no neighber S render front face
-                        rq(img,mvp,8);
-                    if(!cn(i,in_ex.pxl(x-1,y))) // If no neighber W render left face
-                        rq(img,mvp,20);
-                }
-            }
-        FOR(i,img.size())
-            wndw.frmbf.pxl(i,vc3{1,1,1}-img[i]);
+    FOR(y,in.h)
+    FOR(x,in.w){
+        I rb=0;
+        I t=in.pxl(x,y);
+        I i=t>=0?0:abs(t)-1; // Jump to the top if we've got a negative value
+        t=abs(t);
+        for(;i<t;++i){
+            A mvp=m*trnslt(mtxIdnty(),vc3{(F)x-in.w*.5f,(F)i,(F)y-in.h*.5f});
+            if(i==t-1) // Render the top on the last iteration
+                rq(img,mvp,0,b);
+            if(!d||!cn(i,in.pxl(x,y-1))) // If no neighber N render back face
+                rq(img,mvp,16,b);
+            if(!d||!cn(i,in.pxl(x+1,y))) // If no neighber E render right face
+                rq(img,mvp,12,b);
+            if(!d||!cn(i,in.pxl(x,y+1))) // If no neighber S render front face
+                rq(img,mvp,8,b);
+            if(!d||!cn(i,in.pxl(x-1,y))) // If no neighber W render left face
+                rq(img,mvp,20,b);
+            if(!rb) // Render the bottom on the first iteration
+                rq(img,mvp,4,b),
+                rb=1;
+        }
     }
+}
+
+V blocks(I*inD,I inW,I inH,I oW,I oH,I b,I d,F fv,F np,F fp,vc3 c,F s,F ca,F cf,I o,I g)
+{
+    F a=0;
+    F ac=c[1];
+    size_t fc=0;
+    Img<F>img(oW, oH);
+    Img<I>in(inW,inH);
+    memcpy(&in[0],inD,in.size()*sizeof(I));
+    A wndw=g?new Wndw(oW,oH):0;
+    while(o||g){
+        img.clr();
+        c[1]=ac+ca*sin(cf*fc);
+        A cr=rotate(mtxIdnty(),RAD(a),vc3{0,1,0})*vc4{c[0],c[1],c[2],1};
+        A m=prspctv(RAD(fv),(F)oW/(F)oH,np,fp)*lookAt(vc3{cr[0],cr[1],cr[2]},vc3{},vc3{0,1,0});
+        rf(img,in,m,b,d);
+        g=wndw?wndw->o:0;
+        if(g){
+            wndw->tick();
+            FOR(i,img.size())
+                wndw->frmbf.pxl(i,vc3{1,1,1}*img[i]);
+        }
+        if(o)
+            pgm("blocks",oW,oH,&img[0]),
+            o=0;
+        a+=s;
+        ++fc;
+    }
+    if(wndw)
+        delete wndw;
 }
 
 void main()
@@ -144,16 +179,21 @@ void main()
         1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1
     };
     blocks(
-        input,
-        11,               // Input width
-        11,               // Input height
-        840,              // Ouptut width
-        840,              // Output height
-        68.0f,            // Field of view (degrees)
-        6.4f,             // Near plane
-        24.4f,            // Far plane
-        vc3 { -8, 8, 8 }, // Camera position
-        true,             // Write image to "blocks.pgm"
-        true              // Render (Windows only)
+        input,               // Input data
+        11,                  // Input width
+        11,                  // Input height
+        840,                 // Ouptut width
+        840,                 // Output height
+        true,                // Enable back face culling
+        true,                // Enable hollow structures
+        68.0f,               // Field of view (Degrees)
+        2.4f,                // Near plane
+        36.0f,               // Far plane
+        vc3 { -8, 4.6f, 8 }, // Camera position (a block is 1 world unit cubed)
+        1.4f,                // Camera rotation speed (world units per frame)
+        2.8f,                // Camera crane amplitude (world units)
+        0.02f,               // Camera crane frequency (crane amplitude per frame)
+        true,                // Write image to "blocks.pgm"
+        true                 // Render (Windows only)
     );
 }

@@ -52,7 +52,11 @@ struct FrmBf
     V pxl(I i,vc3 c)
     {
         c=strt(c)*255;
-        img[i]=RGB((B)round(c[2]),(B)round(c[1]),(B)round(c[0]));
+        img[i]=RGB(
+            0xffffff-(B)round(c[2]),
+            0xffffff-(B)round(c[1]),
+            0xffffff-(B)round(c[0])
+        );
     }
 
     V blt(HDC dst)
@@ -136,5 +140,8 @@ LRESULT CALLBACK wp(HWND h,UINT m,WPARAM wp,LPARAM lp)
 }
 
 #else
+
+struct FrmBf{V pxl(I,vc3){}};struct Wndw{I o{0};FrmBf frmbf;Wndw(I,I){}V tick(){
+}};
 
 #endif
