@@ -29,7 +29,12 @@ V quad(Img<F>&img,mtx&m,vc4 v0,vc4 v1,vc4 v2,vc4 v3)
     v1=img.prjct(m*v1);
     v2=img.prjct(m*v2);
     v3=img.prjct(m*v3);
-    if(true){
+    A e0=v0-v1;
+    A e1=v1-v2;
+    A c0=vc3{e0[0],e0[1],e0[2]};
+    A c1=vc3{e1[0],e1[1],e1[2]};
+    A c=cross(c0,c1);
+    if(dot(c,vc3{0,0,1})>0){
         ln(img,v0,v1);
         ln(img,v1,v2);
         ln(img,v2,v3);
@@ -78,7 +83,7 @@ V main()
     while(wndw.o){
         wndw.tick();
         img.clr();
-        a+=4.4f;
+        a+=1.0f;
         A m=rotate(mtxIdnty(),RAD(a),vc3{0,1,0});
         A p=prspctv(RAD(16),(F)w/(F)h,3.4f,11.4f);
         A v=lookAt(vc3{4.8f,3,4.8f},vc3{},vc3{0,1,0});
